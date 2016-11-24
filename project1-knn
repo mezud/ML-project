@@ -1,0 +1,182 @@
+lens<-read.table('lenses.data',sep = '')
+value=c("nr","age","spec-prescription","astigmatic","tear","class")
+colnames(lens) <- value
+lens$nr<-NULL
+#knn on contact lense data
+
+install.packages('ggvis')
+install.packages('class')
+library(ggvis)
+library(class)
+library(cluster)
+install.packages('knnGarden')
+library(knnGarden)
+normalize <- function(x) {
+  num <- x - min(x)
+  denom <- max(x) - min(x)
+  return (num/denom)
+}
+lens_norm <- as.data.frame(lapply(lens[1:4], normalize))
+set.seed(1234)
+ind <- sample(2, nrow(lens), replace=TRUE, prob=c(0.65, 0.35))
+lens.training <- lens[ind==1, 1:4]
+lens.test <- lens[ind==2, 1:4]
+lens.trainLabels <- lens[ind==1, 5]
+lens.testLabels <- lens[ind==2, 5]
+install.packages('class')
+library(class)
+#knn contact lense(k=1)
+lens_pred1 <- knn(train = lens.training, test = lens.test, cl = lens.trainLabels, k=1)
+tab1<-table(lens.testLabels,lens_pred1)
+dfl1 <- data.frame(lens_pred1,lens.testLabels)
+dfl1$match <- ifelse(dfl1$lens_pred1==dfl1$lens.testLabels,"Match", "No Match")
+
+#knn contact lense(k=3)
+lens_pred2 <- knn(train = lens.training, test = lens.test, cl = lens.trainLabels, k=3)
+tab2<-table(lens.testLabels,lens_pred2)
+dfl2 <- data.frame(lens_pred2,lens.testLabels)
+dfl2$match <- ifelse(dfl2$lens_pred2==dfl2$lens.testLabels,"Match", "No Match")
+
+#knn contact lense(k=5)
+lens_pred3 <- knn(train = lens.training, test = lens.test, cl = lens.trainLabels, k=5)
+tab3<-table(lens.testLabels,lens_pred3)
+dfl3 <- data.frame(lens_pred3,lens.testLabels)
+dfl3$match <- ifelse(dfl3$lens_pred3==dfl3$lens.testLabels,"Match", "No Match")
+#knn contact lense(k=7)
+lens_pred4 <- knn(train = lens.training, test = lens.test, cl = lens.trainLabels, k=7)
+tab4<-table(lens.testLabels,lens_pred4)
+dfl4 <- data.frame(lens_pred4,lens.testLabels)
+dfl4$match <- ifelse(dfl4$lens_pred4==dfl4$lens.testLabels,"Match", "No Match")
+
+#knn contact lense(k=9)
+lens_pred5 <- knn(train = lens.training, test = lens.test, cl = lens.trainLabels, k=9)
+tab5<-table(lens.testLabels,lens_pred5)
+dfl5 <- data.frame(lens_pred5,lens.testLabels)
+dfl5$match <- ifelse(dfl5$lens_pred5==dfl5$lens.testLabels,"Match", "No Match")
+#mahttan(k=1)
+lens_predm1<-knnVCN(lens.training,lens.trainLabels, lens.test, K = 1, ShowObs=F,method = "manhattan")
+dflm1 <- data.frame(lens_predm1,lens.testLabels)
+dflm1$match <- ifelse(dflm1$TstXIBelong==dflm1$lens.testLabels,"Match", "No Match")
+
+as.list(lens_predm1)
+lens.testLabels
+#mahttan(k=3)
+lens_predm2<-knnVCN(lens.training,lens.trainLabels, lens.test, K = 3, ShowObs=F,method = "manhattan")
+dflm2 <- data.frame(lens_predm2,lens.testLabels)
+dflm2$match <- ifelse(dflm2$TstXIBelong==dflm2$lens.testLabels,"Match", "No Match")
+
+
+#minkowski(k=1)
+lens_predmk1<-knnVCN(lens.training,lens.trainLabels, lens.test, K = 1, ShowObs=F,method = "minkowski")
+dflmk1 <- data.frame(lens_predmk1,lens.testLabels)
+dflmk1$match <- ifelse(dflmk1$TstXIBelong==dflmk1$lens.testLabels,"Match", "No Match")
+
+as.list(lens_predm1)
+lens.testLabels
+#minkowski(k=3)
+lens_predmk2<-knnVCN(lens.training,lens.trainLabels, lens.test, K = 3, ShowObs=F,method = "minkowski")
+dflmk2 <- data.frame(lens_predmk2,lens.testLabels)
+dflmk2$match <- ifelse(dflmk2$TstXIBelong==dflmk2$lens.testLabels,"Match", "No Match")
+
+
+
+as.list(lens_predm2)
+lens.testLabels
+#binary(k=1)
+lens_predb1<-knnVCN(lens.training,lens.trainLabels, lens.test, K = 1, ShowObs=F,method = "binary")
+as.list(lens_predb1)
+dflb1 <- data.frame(lens_predb1,lens.testLabels)
+dflb1$match <- ifelse(dflb1$TstXIBelong==dflb1$lens.testLabels,"Match", "No Match")
+lens.testLabels
+#binary(k=3)
+lens_predb2<-knnVCN(lens.training,lens.trainLabels, lens.test, K = 3, ShowObs=F,method = "binary")
+as.list(lens_predb2)
+dflb2 <- data.frame(lens_predb2,lens.testLabels)
+dflb2$match <- ifelse(dflb2$TstXIBelong==dflb2$lens.testLabels,"Match", "No Match")
+
+
+lens.testLabels
+################################################
+
+ind1 <- sample(2, nrow(iris), replace=TRUE, prob=c(0.65, 0.35))
+iris.trainingg <- iris[ind1==1, 1:5]
+iris.testg <- iris[ind1==2, 1:4]
+iris.trainLabelss <- iris[ind1==1, 5]
+iris.testLabelss <- iris[ind1==2, 5]
+
+#knn iris(k=1)
+iris_pred1 <- knn(train = iris.training, test = iris.test, cl = iris.trainLabels, k=1)
+tabi1<-table(iris.testLabels,iris_pred1)
+dfi1 <- data.frame(iris_pred1,iris.testLabels)
+dfi1$match <- ifelse(dfi1$iris_pred1==dfi1$iris.testLabels,"Match", "No Match")
+
+#knn iris(k=3)
+iris_pred2 <- knn(train = iris.training, test = iris.test, cl = iris.trainLabels, k=3)
+tabi2<-table(iris.testLabels,iris_pred2)
+dfi2 <- data.frame(iris_pred2,iris.testLabels)
+dfi2$match <- ifelse(dfi2$iris_pred2==dfi2$iris.testLabels,"Match", "No Match")
+#knn iris(k=5)
+iris_pred3 <- knn(train = iris.training, test = iris.test, cl = iris.trainLabels, k=5)
+tabi3<-table(iris.testLabels,iris_pred3)
+dfi3 <- data.frame(iris_pred3,iris.testLabels)
+dfi3$match <- ifelse(dfi3$iris_pred3==dfi3$iris.testLabels,"Match", "No Match")
+#knn iris(k=7)
+iris_pred4 <- knn(train = iris.training, test = iris.test, cl = iris.trainLabels, k=7)
+tabi4<-table(iris.testLabels,iris_pred4)
+dfi4 <- data.frame(iris_pred4,iris.testLabels)
+dfi4$match <- ifelse(dfi4$iris_pred4==dfi4$iris.testLabels,"Match", "No Match")
+#knn iris(k=9)
+iris_pred5 <- knn(train = iris.training, test = iris.test, cl = iris.trainLabels, k=9)
+tabi5<-table(iris.testLabels,iris_pred5)
+dfi5 <- data.frame(iris_pred5,iris.testLabels)
+dfi5$match <- ifelse(dfi5$iris_pred5==dfi5$iris.testLabels,"Match", "No Match")
+
+#mahttan(k=1)
+iris_predm1<-knnVCN(iris.training,iris.trainLabels, iris.test, K = 1, ShowObs=F,method = "manhattan")
+irism1 <- data.frame(iris_predm1,iris.testLabels)
+irism1$match <- ifelse(irism1$TstXIBelong==irism1$iris.testLabels,"Match", "No Match")
+tabi6<-table(unlist(iris_predm1),unlist(iris.testLabels))
+
+#mahttan(k=3)
+iris_predm2<-knnVCN(iris.training,iris.trainLabels, iris.test, K = 3, ShowObs=F,method = "manhattan")
+irism2 <- data.frame(iris_predm2,iris.testLabels)
+irism2$match <- ifelse(irism2$TstXIBelong==irism2$iris.testLabels,"Match", "No Match")
+tabi7<-table(unlist(iris_predm2),unlist(iris.testLabels))
+#mahttan(k=5)
+iris_predm3<-knnVCN(iris.training,iris.trainLabels, iris.test, K = 5, ShowObs=F,method = "manhattan")
+irism3 <- data.frame(iris_predm3,iris.testLabels)
+irism3$match <- ifelse(irism3$TstXIBelong==irism3$iris.testLabels,"Match", "No Match")
+tabi8<-table(unlist(iris_predm3),unlist(iris.testLabels))
+#mahttan(k=7)
+iris_predm4<-knnVCN(iris.training,iris.trainLabels, iris.test, K = 7, ShowObs=F,method = "manhattan")
+irism4 <- data.frame(iris_predm4,iris.testLabels)
+irism4$match <- ifelse(irism4$TstXIBelong==irism4$iris.testLabels,"Match", "No Match")
+tabi9<-table(unlist(iris_predm4),unlist(iris.testLabels))
+#manhattan k=9
+iris_predm5<-knnVCN(iris.training,iris.trainLabels, iris.test, K = 9, ShowObs=F,method = "manhattan")
+tabi10<-table(unlist(iris_predm5),unlist(iris.testLabels))
+
+#minkowski(k=1)
+iris_predmk1<-knnVCN(iris.training,iris.trainLabels, iris.test, K = 1, ShowObs=F,method = "minkowski")
+tabi11<-table(unlist(iris_predmk1),unlist(iris.testLabels))
+iris_predmk2<-knnVCN(iris.training,iris.trainLabels, iris.test, K = 3, ShowObs=F,method = "minkowski")
+tabi12<-table(unlist(iris_predmk2),unlist(iris.testLabels))
+iris_predmk3<-knnVCN(iris.training,iris.trainLabels, iris.test, K = 5, ShowObs=F,method = "minkowski")
+tabi13<-table(unlist(iris_predmk3),unlist(iris.testLabels))
+iris_predmk4<-knnVCN(iris.training,iris.trainLabels, iris.test, K = 7, ShowObs=F,method = "minkowski")
+tabi14<-table(unlist(iris_predmk4),unlist(iris.testLabels))
+iris_predmk5<-knnVCN(iris.training,iris.trainLabels, iris.test, K = 9, ShowObs=F,method = "minkowski")
+tabi15<-table(unlist(iris_predmk5),unlist(iris.testLabels))
+
+#binary iris
+
+iris_predb1<-knnVCN(iris.training,iris.trainLabels, iris.test, K = 1, ShowObs=F,method = "binary")
+tabi16<-table(unlist(iris_predb1),unlist(iris.testLabels))
+iris_predb2<-knnVCN(iris.training,iris.trainLabels, iris.test, K = 3, ShowObs=F,method = "binary")
+tabi17<-table(unlist(iris_predb2),unlist(iris.testLabels))
+iris_predb3<-knnVCN(iris.training,iris.trainLabels, iris.test, K = 5, ShowObs=F,method = "binary")
+tabi18<-table(unlist(iris_predb3),unlist(iris.testLabels))
+iris_predb4<-knnVCN(iris.training,iris.trainLabels, iris.test, K = 7, ShowObs=F,method = "binary")
+tabi19<-table(unlist(iris_predb4),unlist(iris.testLabels))
+iris_predb5<-knnVCN(iris.training,iris.trainLabels, iris.test, K = 9, ShowObs=F,method = "binary")
+tabi20<-table(unlist(iris_predb5),unlist(iris.testLabels))
