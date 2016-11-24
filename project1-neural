@@ -1,0 +1,49 @@
+install.packages('RSNNS')
+install.packages('Rcpp')
+library(RSNNS)
+install.packages('Rcpp')
+install.packages('neuralnet')
+library(neuralnet)
+#neural net with three hidden layers, 9, 11, and 8 nodes in each
+mod<-mlp(iris, iris$Species, size=c(9,11,8),linOut=T)
+par(mar=numeric(4),family='serif')
+plot.nnet(mod)
+
+
+library(neuralnet)
+form.in<-as.formula(Species ~.)
+set.seed
+mod2<-nnet(Species~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width, data= iris, hidden=2,err.fct = "ce")
+ll=cbind(1,200)
+nnl <-neuralnet(lens$class~lens$age+lens$`spec-prescription`+lens$astigmatic+lens$tear,hidden=20,data=lensf,err.fct='ce',linear.output=FALSE)
+plot(nnl)
+summary(nnl)
+nnl$result.matrix
+normalize <- function(x) {
+  num <- x - min(x)
+  denom <- max(x) - min(x)
+  return (num/denom)
+}
+iris_norm <- as.data.frame(lapply(iris[1:4], normalize))
+iris_norm$Species<-iris$Species
+type(iris_norm$Species)
+iris_norm$Species<-factor(iris_norm$Species)
+nni <-neuralnet(iris_norm$Species~iris_norm$Sepal.Length+iris_norm$Sepal.Width+iris_norm$Petal.Length+iris_norm$Petal.Width,hidden=3,data=iris_norm,err.fct='ce',linear.output=FALSE)
+
+#################nn######
+
+nnl1 <-neuralnet(lens$class~lens$age+lens$`spec-prescription`+lens$astigmatic+lens$tear,hidden=1,data=lensf,err.fct='ce',linear.output=FALSE)
+nnl2 <-neuralnet(lens$class~lens$age+lens$`spec-prescription`+lens$astigmatic+lens$tear,hidden=2,data=lensf,err.fct='ce',linear.output=FALSE)
+nnl3 <-neuralnet(lens$class~lens$age+lens$`spec-prescription`+lens$astigmatic+lens$tear,hidden=3,data=lensf,err.fct='ce',linear.output=FALSE)
+nnl4 <-neuralnet(lens$class~lens$age+lens$`spec-prescription`+lens$astigmatic+lens$tear,hidden=4,data=lensf,err.fct='ce',linear.output=FALSE)
+nnl5 <-neuralnet(lens$class~lens$age+lens$`spec-prescription`+lens$astigmatic+lens$tear,hidden=5,data=lensf,err.fct='ce',linear.output=FALSE)
+nnl6 <-neuralnet(lens$class~lens$age+lens$`spec-prescription`+lens$astigmatic+lens$tear,hidden=6,data=lensf,err.fct='ce',linear.output=FALSE)
+nnl7 <-neuralnet(lens$class~lens$age+lens$`spec-prescription`+lens$astigmatic+lens$tear,hidden=7,data=lensf,err.fct='ce',linear.output=FALSE)
+nnl8 <-neuralnet(lens$class~lens$age+lens$`spec-prescription`+lens$astigmatic+lens$tear,hidden=8,data=lensf,err.fct='ce',linear.output=FALSE)
+nnl9 <-neuralnet(lens$class~lens$age+lens$`spec-prescription`+lens$astigmatic+lens$tear,hidden=9,data=lensf,err.fct='ce',linear.output=FALSE)
+nnl10 <-neuralnet(lens$class~lens$age+lens$`spec-prescription`+lens$astigmatic+lens$tear,hidden=10,data=lensf,err.fct='ce',linear.output=FALSE)
+nnl11 <-neuralnet(lens$class~lens$age+lens$`spec-prescription`+lens$astigmatic+lens$tear,hidden=11,data=lensf,err.fct='ce',linear.output=FALSE)
+nnl12 <-neuralnet(lens$class~lens$age+lens$`spec-prescription`+lens$astigmatic+lens$tear,hidden=12,data=lensf,err.fct='ce',linear.output=FALSE)
+nnl13 <-neuralnet(lens$class~lens$age+lens$`spec-prescription`+lens$astigmatic+lens$tear,hidden=13,data=lensf,err.fct='ce',linear.output=FALSE)
+plot(nnl7)
+
