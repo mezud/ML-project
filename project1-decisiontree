@@ -1,0 +1,109 @@
+library(rpart)
+install.packages("rJava",,"http://rforge.net/",type="source")
+# load data
+data(iris)
+###### 
+lensf<-lens
+lensf$class<-factor(lens$class)
+lensf$`spec-prescription`<-factor(lensf$`spec-prescription`)
+lensf$astigmatic<-factor(lensf$astigmatic)
+lensf$tear<-factor(lensf$tear)
+lensf$age<-factor(lensf$age)
+lensf.training <- lensf[ind==1, 1:5]
+
+lensf.test <- lensf[ind==2, 1:4]
+lensf.trainLabels <- lensf[ind==1, 5]
+lensf.testLabels <- lensf[ind==2, 5]
+sapply(lensf.training, class)
+########### trying rpart##########
+lens_rpart <- rpart(class ~.,method="class", data=lens)
+summary(lens_rpart)
+pred_rpart <- predict(lens_rpart, lensf.test)
+summary(pred_rpart)
+data.frame(pred_rpart, lensf.testLabels)
+plot(lens_rpart);text(lens_rpart)
+plot(lens_rpart, uniform=TRUE, main="Classification Tree for Kyphosis")
+text(fit, use.n=TRUE, all=TRUE, cex=.8)
+# summarize accuracy
+data.frame(predictions, lensf.testLabels)
+
+plot(fit, uniform=TRUE, 
+     main="Classification Tree for lens")
+text(fit, use.n=TRUE, all=TRUE, cex=.8)
+rpart.plot(lens_rpart)
+rpart.plot(fit)
+install.packages('rpart.plot')
+library(rpart.plot)
+install.packages('RWeka')
+library(RWeka)
+install.packages('party')
+library(party)
+install.packages('sandwich')
+library(sandwich)
+iris_ctree <- ctree(class ~., data=lens)
+plot(iris_ctree)
+
+######################################
+
+#id3 implementation in contact lense
+WPM("install-package", "simpleEducationalLearningSchemes") 
+WPM("load-package", "simpleEducationalLearningSchemes") 
+ID3 <- make_Weka_classifier("weka/classifiers/trees/Id3") 
+lens_id3<-ID3(class~., data=lensf.training)
+DF2 <- read.arff(system.file("arff", "contact-lenses.arff", package = "RWeka")) 
+ID3(DF2$`contact-lenses` ~ ., data = DF2)  
+pred_id3<- predict(lens_id3, lensf.test)
+pred_id3
+id3_lens_df<-data.frame(pred_id3, lensf.testLabels)
+summary(lensid31)
+plot(lens_id3)
+library(rJava)
+
+# ##########j48 contact lesne
+lensj48 <- J48(class~., data=lensf.training)
+plot(lensj48)
+summary(lensj48)
+predictions <- predict(lensj48, lensf.test)
+lens_j48_df<-data.frame(predictions, lensf.testLabels)
+
+irisj48<-J48(iris$Species~., data=iris)
+
+###bagging cart
+
+install.packages('ipred')
+library(ipred)
+lens_bgg <- bagging(class~., data=lensf.training)
+
+predictions_bag <- predict(lens_bgg, lensf.test)
+summary(lens_bag_df)
+
+lens_bag_df<-data.frame(predictions_bag, lensf.testLabels)
+
+#####################
+a # original data frame
+library(dplyr)
+train<-sample_frac(iris, 0.8)
+sid<-as.numeric(rownames(train)) # because rownames() returns character
+test<-a[-sid,]
+### J48 iris
+irisj48<-J48(iris.trainingg$Species~., data=iris.trainingg)
+
+plot(irisj48)
+summary(irisj48)
+pred_j48_iris <- predict(irisj48, iris.testg)
+tabj48_iris<-table(unlist(pred_j48_iris),unlist(iris.testLabelss))
+lens_j48_df<-data.frame(pred_j48_iris, iris.trainLabelss)
+
+
+
+iris_bgg <- bagging(iris.trainingg$Species~., data=iris.trainingg)
+
+predictions_iris_bag <- predict(iris_bgg, iris.testg)
+tab_bag_iris<-table(unlist(predictions_iris_bag),unlist(iris.testLabelss))
+
+lens_bag_df<-data.frame(predictions_bag, lensf.testLabels)
+
+
+
+
+
