@@ -5,3 +5,4 @@
 * [code for project1(knn)](https://github.com/mezud/ML-project/blob/master/project1-knn)
 * [code for project1(nnet)](https://github.com/mezud/ML-project/blob/master/project1-neural)
 ##### [Project 2](https://github.com/mezud/ML-project/blob/master/ml-project%202.pdf)
+* [code for project2](https://github.com/mezud/ML-project/blob/master/project%202..R)
